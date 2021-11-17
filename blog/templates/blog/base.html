@@ -1,34 +1,37 @@
 {% load static %}
 <html>
-<head>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-    <title>
-        Aliona's blog
-    </title>
-</head>
-<body>
-<div class="page-header">
-    {% if user.is_authenticated %}
-    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-    <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-    <p class="top-menu">Hello, {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-    {% else %}
-    <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-    {% endif %}
-    <h1><a href="/">Aliona's blog</a></h1>
-</div>
-<div class="content container">
-    <div class="row">
-        <div class="col-md-8">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
-</div>
-</body>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/48e87cf53b.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <title>good news</title>
+    </head>
+    <body>
+    <header class="page-header">
+        <span class="top-menu">
+            {% if user.is_authenticated %}
+                <span style="margin-right: 20px;">hello, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}"><span title="log out" class="fas fa-sign-out-alt"></span></a>
+                <a href="{% url 'post_draft_list' %}"><span title="drafts" class="far fa-edit"></span></a>
+                <a href="{% url 'post_new' %}"><span title="new post" class="fas fa-plus"></span></a>
+            {% else %}
+                <span style="margin-right: 20px;">hello, friend!</span>
+                <a href="{% url 'login' %}"><span title="log in" class="fas fa-sign-in-alt"></span></a>
+            {% endif %}
+        </span>
+        <h1>
+            <a href="/">
+                <span id="letter-1">g</span><span id="letter-2">o</span><span id="letter-3">o</span><span
+                id="letter-4">d</span><span>&nbsp;</span><span id="letter-5">n</span><span
+                id="letter-6">e</span><span id="letter-7">w</span><span id="letter-8">s</span>
+            </a>
+        </h1>
+    </header>
+    <main class="content container">
+        {% block content %}
+        {% endblock %}
+    </main>
+    </body>
 </html>

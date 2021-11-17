@@ -1,29 +1,88 @@
-body {
-    padding-left: 0px;
+* {
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 0;
+    padding: 0;
 }
 
-.page-header {
-    background-color: #6935A9;
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
-}
-
-.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
-    color: #ffffff;
-    font-size: 36pt;
+a:link, a:visited {
+    color: black;
     text-decoration: none;
 }
 
-.content {
+a:hover, a:active {
+    color: #CFB5DF;
+}
+
+.page-header {
+    display: block;
+    height: 110px;
+    background-color: #D6C8DF;
+    color: #FFF;
+    padding: 5px 20px 10px 40px;
+    font-size: 26pt;
+    margin-bottom: 60px;
+}
+
+.page-header a {
+    color: #FFF;
+}
+
+.top-menu, .top-menu:hover, .top-menu:visited {
+    color: #FFF;
+    float: right;
+    font-size: 26pt;
+    margin-top: 10px;
+}
+
+#letter-1:hover, #letter-1:active {
+    color: #FF3D00;
+}
+
+#letter-2:hover, #letter-2:active {
+    color: #FF9A00;
+}
+
+#letter-3:hover, #letter-3:active {
+    color: #FFD600;
+}
+
+#letter-4:hover, #letter-4:active {
+    color: #A0F000;
+}
+
+#letter-5:hover, #letter-5:active {
+    color: #00EBA8;
+}
+
+#letter-6:hover, #letter-6:active {
+    color: #00E9F4;
+}
+
+#letter-7:hover, #letter-7:active {
+    color: #0082FF;
+}
+
+#letter-8:hover, #letter-8:active {
+    color: #B132FF;
+}
+
+main {
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Montserrat', sans-serif;
+.post-title {
+    padding-bottom: 5px;
+}
+
+.post-text {
+    padding-bottom: 10px;
 }
 
 .date {
-    color: #828282;
+    text-transform: lowercase;
+    color: #8E8E8E;
+    padding-bottom: 10px;
 }
 
 .save {
@@ -31,24 +90,23 @@ h1, h2, h3, h4 {
 }
 
 .post-form textarea, .post-form input {
-    width: 100%;
-}
-
-.top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ffffff;
-    float: right;
-    font-size: 26pt;
-    margin-right: 20px;
+    width: 900px;
 }
 
 .post {
+    clear: left;
     margin-bottom: 70px;
-}
-
-.post h1 a, .post h1 a:visited {
-    color: #000000;
+    width: 900px;
 }
 
 .comment {
-    margin: 20px 0px 20px 20px;
+    margin: 20px;
+}
+
+.comment-link:link, .comment-link:visited {
+    color: #8E8E8E;
+}
+
+.comment-link:hover, .comment-link:active {
+    color: #CFB5DF;
 }

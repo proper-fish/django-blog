@@ -4,11 +4,15 @@
 {% for post in posts %}
 <div class="post">
     <div class="date">
-        <p>published: {{ post.published_date }}</p>
+        <p>{{ post.published_date }}</p>
     </div>
-    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-    <p>{{ post.text|linebreaksbr }}</p>
-    <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+    <h1 class="post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+    <p class="post-text">{{ post.text|linebreaksbr }}</p>
+    {% if post.approved_comments.count > 0 %}
+        <a class="comment-link" href="{% url 'post_detail' pk=post.pk %}">see comments</a>
+    {% else %}
+        <a class="comment-link" href="{% url 'post_detail' pk=post.pk %}">no comments</a>
+    {% endif %}
 </div>
 {% endfor %}
 {% endblock %}
