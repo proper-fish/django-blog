@@ -10,8 +10,8 @@ services:
     environment:
       - DB_HOST=db
       - DB_NAME=djangoblog
-      - DB_USER=user
-      - DB_PASS=password
+      - DB_USER=aliona
+      - DB_PASS=postrges
     depends_on:
       - db
   db:
@@ -20,8 +20,8 @@ services:
       - website-db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=djangoblog
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=aliona
+      - POSTGRES_PASSWORD=postrges
     ports:
       - "5432:5432"
 volumes:

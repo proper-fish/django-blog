@@ -14,7 +14,7 @@ WORKDIR /django-blog
 COPY . /django-blog
 
 #db username
-RUN adduser -D user
-USER user
+RUN adduser -D aliona
+USER aliona
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
