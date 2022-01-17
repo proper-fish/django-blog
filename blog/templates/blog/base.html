@@ -15,6 +15,7 @@
             {% if user.is_authenticated %}
                 <span style="margin-right: 20px;">hello, {{ user.username }}!</span>
                 <a href="{% url 'logout' %}"><span title="log out" class="fas fa-sign-out-alt"></span></a>
+                <a href="{% url 'suggested_list' %}"><span title="suggested news" class="fas fa-mail-bulk"></span></a>
                 <a href="{% url 'post_draft_list' %}"><span title="drafts" class="far fa-edit"></span></a>
                 <a href="{% url 'post_new' %}"><span title="new post" class="fas fa-plus"></span></a>
             {% else %}
