@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1 style="margin-bottom: 40px;">Suggested news:</h1>
+    {% for news in newses %}
+        <div class="post">
+            <p class="date">{{ news.created_date }}</p>
+            <h1 class="post-title">{{ news.author }}</h1>
+            <p class="post-text">{{ news.text|truncatechars:200 }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

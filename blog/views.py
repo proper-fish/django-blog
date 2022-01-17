@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .models import Post, Comment, Suggested
+from .forms import PostForm, CommentForm, SuggestedForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
@@ -24,7 +24,6 @@ def post_new(request):
             post.author = request.user
             post.save()
             return redirect('post_detail', pk=post.pk)
-
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
@@ -91,3 +90,22 @@ def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     comment.delete()
     return redirect('post_detail', pk=comment.post.pk)
+
+
+def suggest_news(request):
+    if request.method == "POST":
+        form = SuggestedForm(request.POST)
+        if form.is_valid():
+            news = form.save(commit=False)
+            news.save()
+            return redirect('post_list')
+    else:
+        form = SuggestedForm()
+    return render(request, 'blog/suggest_news.html', {'form': form})
+
+
+@login_required
+def suggested_list(request):
+    newses = Suggested.objects.order_by('-created_date')
+    return render(request, 'blog/suggested_list.html', {'newses': newses})
+

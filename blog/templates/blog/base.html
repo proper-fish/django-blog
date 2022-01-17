@@ -19,6 +19,7 @@
                 <a href="{% url 'post_new' %}"><span title="new post" class="fas fa-plus"></span></a>
             {% else %}
                 <span style="margin-right: 20px;">hello, friend!</span>
+                <a href="{% url 'suggest_news' %}"><span title="suggest news" class="fas fa-plus"></span></a>
                 <a href="{% url 'login' %}"><span title="log in" class="fas fa-sign-in-alt"></span></a>
             {% endif %}
         </span>
