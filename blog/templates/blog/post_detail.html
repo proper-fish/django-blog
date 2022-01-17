@@ -37,10 +37,12 @@
             {% empty %}
             <p style="color: #8E8E8E;">no comments here yet...</p>
         {% endfor %}
-        {% else %}
+    {% else %}
         {% if user.is_authenticated %}
             <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span title="publish"
                                                                                         class="fas fa-upload"></span></a>
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span
+                    class="fas fa-trash-alt"></span></a>
         {% endif %}
     {% endif %}
 </div>

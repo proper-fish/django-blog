@@ -1,12 +1,16 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1 style="margin-bottom: 70px;">Draft posts:</h1>
+    <h1 style="margin-bottom: 40px;">Draft posts:</h1>
     {% for post in posts %}
         <div class="post">
-            <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+            <p class="date">written on: {{ post.created_date }}</p>
             <h2 class="post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
             <p class="post-text">{{ post.text|truncatechars:200 }}</p>
+            <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span title="publish"
+                                                                                        class="fas fa-upload"></span></a>
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span
+                    class="fas fa-trash-alt"></span></a>
         </div>
     {% endfor %}
 {% endblock %}
