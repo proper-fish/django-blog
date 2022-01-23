@@ -6,7 +6,7 @@
         <div class="post">
             <p class="date">{{ news.created_date }}</p>
             <h1 class="post-title">{{ news.author }}</h1>
-            <p class="post-text">{{ news.text|truncatechars:200 }}</p>
+            <p class="post-text">{{ news.text }}</p>
         </div>
     {% endfor %}
 {% endblock %}
