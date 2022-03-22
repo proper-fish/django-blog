@@ -106,6 +106,6 @@ def suggest_news(request):
 
 @login_required
 def suggested_list(request):
-    newses = Suggested.objects.order_by('-created_date')
+    newses = Suggested.objects.all()
     return render(request, 'blog/suggested_list.html', {'newses': newses})
 

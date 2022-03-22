@@ -6,12 +6,12 @@
             <div class="date">
                 <p>{{ post.published_date }}</p>
             </div>
-            <h1 class="post-title"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+            <h1 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
             <p class="post-text">{{ post.text|linebreaksbr }}</p>
             {% if post.approved_comments.count > 0 %}
-                <a class="comment-link" href="{% url 'post_detail' pk=post.pk %}">see comments</a>
+                <a class="comment-link" href="{{ post.get_absolute_url }}">see comments</a>
             {% else %}
-                <a class="comment-link" href="{% url 'post_detail' pk=post.pk %}">no comments</a>
+                <a class="comment-link" href="{{ post.get_absolute_url }}">no comments</a>
             {% endif %}
         </div>
     {% endfor %}
