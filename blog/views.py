@@ -3,11 +3,16 @@ from .models import Post, Comment, Suggested
 from .forms import PostForm, CommentForm, SuggestedForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 
 
-def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+class BlogHome(ListView):
+    model = Post
+    context_object_name = 'posts'
+    extra_context = []
+
+    def get_queryset(self):
+        return Post.objects.filter(published_date__isnull=False).order_by('-published_date')
 
 
 def post_detail(request, pk):
@@ -44,10 +49,14 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-@login_required
-def post_draft_list(request):
-    posts = Post.objects.filter(published_date__isnull=True).order_by('created_date')
-    return render(request, 'blog/post_draft_list.html', {'posts': posts})
+class BlogDrafts(ListView):
+    model = Post
+    template_name = 'blog/post_draft_list.html'
+    context_object_name = 'posts'
+    extra_context = []
+
+    def get_queryset(self):
+        return Post.objects.filter(published_date__isnull=True).order_by('-created_date')
 
 
 @login_required
@@ -61,7 +70,7 @@ def post_publish(request, pk):
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
-    return redirect('post_list')
+    return redirect('home')
 
 
 def add_comment_to_post(request, pk):
@@ -98,7 +107,7 @@ def suggest_news(request):
         if form.is_valid():
             news = form.save(commit=False)
             news.save()
-            return redirect('post_list')
+            return redirect('home')
     else:
         form = SuggestedForm()
     return render(request, 'blog/suggest_news.html', {'form': form})
@@ -108,4 +117,3 @@ def suggest_news(request):
 def suggested_list(request):
     newses = Suggested.objects.all()
     return render(request, 'blog/suggested_list.html', {'newses': newses})
-

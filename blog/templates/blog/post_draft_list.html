@@ -5,6 +5,9 @@
     {% for post in posts %}
         <div class="post">
             <p class="date">written on: {{ post.created_date }}</p>
+            <div class="author">
+                <p>written by: {{ post.author }}</p>
+            </div>
             <h2 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
             <p class="post-text">{{ post.text|truncatechars:200 }}</p>
             <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}"><span title="publish"
