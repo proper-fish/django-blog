@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+
 from .models import Post, Comment, Suggested
-from .forms import PostForm, CommentForm, SuggestedForm
+from .forms import PostForm, CommentForm, SuggestedForm, RegisterUserForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
 class BlogHome(ListView):
@@ -15,38 +17,28 @@ class BlogHome(ListView):
         return Post.objects.filter(published_date__isnull=False).order_by('-published_date')
 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+class PostDetail(DetailView):
+    model = Post
+    extra_context = []
 
 
-@login_required
-def post_new(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'blog/post_edit.html', {'form': form})
+class PostAdd(CreateView):
+    form_class = PostForm
+    template_name = 'blog/post_edit.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
-@login_required
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'blog/post_edit.html', {'form': form})
+class PostEdit(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_edit.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class BlogDrafts(ListView):
@@ -117,3 +109,9 @@ def suggest_news(request):
 def suggested_list(request):
     newses = Suggested.objects.all()
     return render(request, 'blog/suggested_list.html', {'newses': newses})
+
+
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login')
