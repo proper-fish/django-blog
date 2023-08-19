@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 
 from .models import Post, Comment, Suggested
-from .forms import PostForm, CommentForm, SuggestedForm, RegisterUserForm
+from .forms import PostForm, CommentForm, SuggestedForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -111,7 +111,7 @@ def suggested_list(request):
     return render(request, 'blog/suggested_list.html', {'newses': newses})
 
 
-class RegisterUser(CreateView):
-    form_class = RegisterUserForm
-    template_name = 'registration/register.html'
-    success_url = reverse_lazy('login')
+# class RegisterUser(CreateView):
+#     form_class = RegisterUserForm
+#     template_name = 'registration/register.html'
+#     success_url = reverse_lazy('login')
