@@ -15,5 +15,3 @@ COPY . .
 ##db username
 #RUN adduser -D aliona
 #USER aliona
-
-RUN python manage.py collectstatic
