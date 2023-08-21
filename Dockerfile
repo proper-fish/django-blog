@@ -12,8 +12,8 @@ RUN pip install -r requirements.txt
 RUN apk del .tmp-build-deps
 COPY . .
 
-#db username
-RUN adduser -D aliona
-USER aliona
+##db username
+#RUN adduser -D aliona
+#USER aliona
 
 RUN python manage.py collectstatic
