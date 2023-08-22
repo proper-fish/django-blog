@@ -1,13 +1,13 @@
-# Django based web app
+# Django-based online blog
 
 The app is a blog where posts can be added by admin and suggested by other users, and can be commented on by both.
 
-Backend: *Django*; frontend: *HTML*, *CSS*.
+Backend: *Python*, *Django*, *PostgeSQL*; frontend: *HTML*, *CSS*.
 
-The app is implemented to run:
+The app can be run in two versions:
 
-   • locally in *Docker* in combination w/ *PostgeSQL*
+   • as a multi-container applications in *Docker*
    
-   • deployed on *Heroku* w/ it's built-in *PostgeSQL* (current version)
+   • as an applications on *railway.app* platform (latest version)
 
-Active Heroku version is available @ https://alionas-good-news.herokuapp.com/
+Visit the website @ https://alionas-good-news.up.railway.app
