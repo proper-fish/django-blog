@@ -32,7 +32,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com', '.herokuapp.com', '0.0.0.0', '.railway.app', '.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
