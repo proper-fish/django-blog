@@ -16,10 +16,17 @@
         <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}"><span title="leave comment"
                 style="padding-bottom: 10px;" class="fas fa-comments"></span></a>
         {% if user.is_authenticated %}
-        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span
-                class="far fa-edit"></span></a>
-        <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span
-                class="fas fa-trash-alt"></span></a>
+            {% if post.is_pinned %}
+                <a class="btn btn-default" href="{% url 'post_unpin' pk=post.pk %}"><span title="unpin post"
+                style="padding-bottom: 10px;" class="fas fa-thumbtack"></span></a>
+            {% else %}
+                <a class="btn btn-default" href="{% url 'post_pin' pk=post.pk %}"><span title="pin post"
+                style="padding-bottom: 10px;" class="fas fa-thumbtack"></span></a>
+            {% endif %}
+            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span
+                    class="far fa-edit"></span></a>
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span
+                    class="fas fa-trash-alt"></span></a>
         {% endif %}
         {% for comment in post.comments.all %}
             {% if user.is_authenticated or comment.approved_comment %}

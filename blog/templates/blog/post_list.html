@@ -1,7 +1,25 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% for post in posts %}
+    {% for post in pinned %}
+        <div class="post">
+            <div class="date">
+                <p>{{ post.published_date }}</p>
+            </div>
+            <div class="author">
+                <p>by: {{ post.author }}</p>
+            </div>
+            <h2 class="fas fa-thumbtack"></h2>
+            <h1 class="post-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h1>
+            <p class="post-text">{{ post.text|linebreaksbr }}</p>
+            {% if post.approved_comments.count > 0 %}
+                <a class="comment-link" href="{{ post.get_absolute_url }}">see comments</a>
+            {% else %}
+                <a class="comment-link" href="{{ post.get_absolute_url }}">no comments</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% for post in all %}
         <div class="post">
             <div class="date">
                 <p>{{ post.published_date }}</p>

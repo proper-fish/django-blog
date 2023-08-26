@@ -10,6 +10,7 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True, verbose_name='created on')
+    is_pinned = models.BooleanField(default=False)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -23,6 +24,14 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    def pin(self):
+        self.is_pinned = True
+        self.save()
+
+    def unpin(self):
+        self.is_pinned = False
+        self.save()
 
 
 class Comment(models.Model):

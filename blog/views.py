@@ -13,8 +13,12 @@ class BlogHome(ListView):
     context_object_name = 'posts'
     extra_context = []
 
-    def get_queryset(self):
-        return Post.objects.filter(published_date__isnull=False).order_by('-published_date')
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['pinned'] = Post.objects.filter(published_date__isnull=False, is_pinned=True)
+        context_data['all'] = Post.objects.filter(published_date__isnull=False, is_pinned=False).order_by(
+            '-published_date')
+        return context_data
 
 
 class PostDetail(DetailView):
@@ -115,3 +119,16 @@ def suggested_list(request):
 #     form_class = RegisterUserForm
 #     template_name = 'registration/register.html'
 #     success_url = reverse_lazy('login')
+
+@login_required
+def post_pin(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.pin()
+    return redirect('home')
+
+
+@login_required
+def post_unpin(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.unpin()
+    return redirect('home')

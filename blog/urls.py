@@ -15,4 +15,6 @@ urlpatterns = [
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
     path('suggest/', views.suggest_news, name='suggest_news'),
     path('suggested_news/', views.suggested_list, name='suggested_list'),
+    path('post/<pk>/pin/', views.post_pin, name='post_pin'),
+    path('post/<pk>/unpin/', views.post_unpin, name='post_unpin'),
 ]
