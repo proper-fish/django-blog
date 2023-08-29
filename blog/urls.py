@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', views.BlogHome.as_view(), name='home'),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('suggested_news/', views.suggested_list, name='suggested_list'),
     path('post/<pk>/pin/', views.post_pin, name='post_pin'),
     path('post/<pk>/unpin/', views.post_unpin, name='post_unpin'),
+    path('shop/', TemplateView.as_view(template_name="shop.html"),  name='shop'),
 ]
