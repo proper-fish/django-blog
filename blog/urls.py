@@ -20,5 +20,6 @@ urlpatterns = [
     path('post/<pk>/unpin/', views.post_unpin, name='post_unpin'),
     path('shop/', TemplateView.as_view(template_name="shop.html"),  name='shop'),
     path('api/v1/posts_list/', views.PostsAPIView.as_view()),
+    path('api/v1/comments_list/', views.CommentAPIView.as_view()),
     path('api/v1/comments_list/<int:pk>/', views.CommentAPIView.as_view()),
 ]
