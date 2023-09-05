@@ -1,11 +1,16 @@
+from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-
-from .models import Post, Comment, Suggested
-from .forms import PostForm, CommentForm, SuggestedForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from rest_framework import generics
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from .models import Post, Comment, Suggested
+from .forms import PostForm, CommentForm, SuggestedForm
+from .serializers import PostsSerializer, CommentSerializer
 
 
 class BlogHome(ListView):
@@ -132,3 +137,21 @@ def post_unpin(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.unpin()
     return redirect('home')
+
+
+class PostsAPIView(APIView):
+    def get(self, request):
+        post_list = Post.objects.all()
+        return Response({'posts': PostsSerializer(post_list, many=True).data})
+
+
+class CommentAPIView(APIView):
+    def get(self, request, pk):
+        comment_list = Comment.objects.filter(post=pk)
+        return Response({'comments': CommentSerializer(comment_list, many=True).data})
+
+    def post(self, request):
+        serializer = CommentSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'comments': serializer.data})
