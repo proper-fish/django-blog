@@ -120,3 +120,8 @@ main {
 .comment-link:hover, .comment-link:active {
     color: #CFB5DF;
 }
+
+.error-message {
+    font-size: 50pt;
+    color: #D6C8DF;
+}
