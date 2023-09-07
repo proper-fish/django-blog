@@ -4,13 +4,16 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework import permissions
 
 from .models import Post, Comment, Suggested
 from .forms import PostForm, CommentForm, SuggestedForm
 from .serializers import PostsSerializer, CommentSerializer
+from .permissions import UserPermission
 
 
 class BlogHome(ListView):
@@ -139,19 +142,21 @@ def post_unpin(request, pk):
     return redirect('home')
 
 
-class PostsAPIView(APIView):
-    def get(self, request):
-        post_list = Post.objects.all()
-        return Response({'posts': PostsSerializer(post_list, many=True).data})
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostsSerializer
+    permission_classes = (UserPermission,)
+
+    @action(methods=['get'], detail=False)
+    def pinned(self, request):
+        pinned_posts = Post.objects.filter(is_pinned=True).values()
+        return Response({'pinned_posts': list(pinned_posts)})
 
 
-class CommentAPIView(APIView):
-    def get(self, request, pk):
-        comment_list = Comment.objects.filter(post=pk)
-        return Response({'comments': CommentSerializer(comment_list, many=True).data})
-
-    def post(self, request):
-        serializer = CommentSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({'comments': serializer.data})
+# allowed GET (single and set) and POST
+class CommentViewSet(viewsets.mixins.CreateModelMixin,
+                     viewsets.mixins.RetrieveModelMixin,
+                     viewsets.mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer

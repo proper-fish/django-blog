@@ -1,7 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.views.generic import TemplateView
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'posts', views.PostViewSet)
+router.register(r'comments', views.CommentViewSet)
+
 
 urlpatterns = [
     path('', views.BlogHome.as_view(), name='home'),
@@ -18,8 +24,6 @@ urlpatterns = [
     path('suggested_news/', views.suggested_list, name='suggested_list'),
     path('post/<pk>/pin/', views.post_pin, name='post_pin'),
     path('post/<pk>/unpin/', views.post_unpin, name='post_unpin'),
-    path('shop/', TemplateView.as_view(template_name="shop.html"),  name='shop'),
-    path('api/v1/posts_list/', views.PostsAPIView.as_view()),
-    path('api/v1/comments_list/', views.CommentAPIView.as_view()),
-    path('api/v1/comments_list/<int:pk>/', views.CommentAPIView.as_view()),
+    path('shop/', TemplateView.as_view(template_name="shop.html"), name='shop'),
+    path('api/v1/', include(router.urls)),
 ]
