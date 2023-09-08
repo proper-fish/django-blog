@@ -1,14 +1,10 @@
-from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from rest_framework import generics, viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Post, Comment, Suggested
 from .forms import PostForm, CommentForm, SuggestedForm
@@ -142,14 +138,22 @@ def post_unpin(request, pk):
     return redirect('home')
 
 
+class PostViewSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    # returns all published posts in reversed order of ids
+    queryset = Post.objects.filter(published_date__isnull=False).order_by('-id')
     serializer_class = PostsSerializer
     permission_classes = (UserPermission,)
+    pagination_class = PostViewSetPagination
 
     @action(methods=['get'], detail=False)
     def pinned(self, request):
-        pinned_posts = Post.objects.filter(is_pinned=True).values()
+        pinned_posts = Post.objects.filter(is_pinned=True, published_date__isnull=False).values()
         return Response({'pinned_posts': list(pinned_posts)})
 
 
@@ -158,5 +162,5 @@ class CommentViewSet(viewsets.mixins.CreateModelMixin,
                      viewsets.mixins.RetrieveModelMixin,
                      viewsets.mixins.ListModelMixin,
                      viewsets.GenericViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('-id')
     serializer_class = CommentSerializer
